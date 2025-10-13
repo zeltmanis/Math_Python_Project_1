@@ -1,5 +1,21 @@
-name,age,gender,country
-Alice,20,Female,USA
-Bob,22,Male,Canada
-Charlie,21,Male,UK
-mike,23,male,Turkey
+name,age,gender,country,sports,art,games,movie
+Alice,20,Female,USA,ball sports,painting,FPS games,action
+Bob,22,Male,Canada,winter sports,dancing,Strategy games,comedy
+Charlie,21,Male,UK,martial arts,singing,RPG games,drama
+Diana,23,Female,Germany,none,painting,FPS games,sci-fi
+Ethan,19,Male,USA,ball sports,none,RPG games,action
+Fiona,21,Female,France,winter sports,dancing,Strategy games,comedy
+George,22,Male,Turkey,ball sports,singing,FPS games,horror
+Hana,20,Female,Japan,martial arts,painting,RPG games,drama
+Ian,24,Male,Canada,none,none,Strategy games,sci-fi
+Julia,23,Female,UK,ball sports,dancing,RPG games,comedy
+Kevin,21,Male,USA,other,singing,FPS games,horror
+Laura,22,Female,Germany,winter sports,painting,Strategy games,drama
+Mike,23,Male,Turkey,martial arts,dancing,RPG games,action
+Nina,20,Female,France,none,none,FPS games,sci-fi
+Oscar,25,Male,Japan,ball sports,singing,Strategy games,comedy
+Paula,19,Female,UK,winter sports,painting,RPG games,drama
+Quinn,22,Non-binary,Canada,none,dancing,FPS games,horror
+Rita,21,Female,Germany,martial arts,singing,RPG games,action
+Sam,20,Male,USA,ball sports,none,Strategy games,comedy
+Tina,22,Female,France,winter sports,painting,RPG games,drama

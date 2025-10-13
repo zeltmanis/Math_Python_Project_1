@@ -21,7 +21,7 @@ class StudentManager:
 
     def save_students(self):
         with open(self.filename, 'w', newline='') as csvfile:
-            fieldnames = ['name', 'age', 'gender', 'country']
+            fieldnames = ['name', 'age', 'gender', 'country', 'sports', 'art', 'games', 'movie']
             writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
             writer.writeheader()
             for student in self.students:
@@ -33,7 +33,10 @@ class StudentManager:
             return
         print("\n--- Student List ---")
         for i, student in enumerate(self.students, start=1):
-            print(f"{i}. Name: {student['name']}, Age: {student['age']}, Gender: {student['gender']}, Country: {student['country']}")
+            print(
+                f"{i}. Name: {student['name']}, Age: {student['age']}, Gender: {student['gender']}, Country: {student['country']}, "
+                f"Sports: {student.get('sports', 'N/A')}, Art: {student.get('art', 'N/A')}, Games: {student.get('games', 'N/A')}, Movie: {student.get('movie', 'N/A')}"
+            )
         print("--------------------\n")
 
     def add_student(self):
@@ -43,16 +46,36 @@ class StudentManager:
         gender = input("Enter gender: ")
         country = input("Enter country: ")
 
+        print("\nSelect Sports:")
+        print("Options: ball sports, winter sports, martial arts, other, none")
+        sports = input("Your choice: ")
+
+        print("\nSelect Art:")
+        print("Options: painting, dancing, singing, other, none")
+        art = input("Your choice: ")
+
+        print("\nSelect Game Type:")
+        print("Options: FPS games, Strategy games, RPG games, other, none")
+        games = input("Your choice: ")
+
+        print("\nSelect Movie Genre:")
+        print("Options: horror, drama, action, comedy, sci-fi, none")
+        movie = input("Your choice: ")
+
         new_student = {
             'name': name,
             'age': age,
             'gender': gender,
-            'country': country
+            'country': country,
+            'sports': sports,
+            'art': art,
+            'games': games,
+            'movie': movie
         }
 
         self.students.append(new_student)
         self.save_students()
-        print(f"Student {name} added successfully!\n")
+        print(f"Student '{name}' added successfully!")
 
     def delete_student(self):
         if not self.students:
