@@ -16,3 +16,11 @@ class StudentHelper:
                 return options[int(choice) - 1]
             else:
                 messagebox.showerror("Invalid", "Please enter a valid number.")
+
+    def format_student(self, student, number=None):
+        prefix = f"{number}. " if number else ""
+        return (
+            f"{prefix}{student['name']} ({student['age']}), {student['gender']}, {student['country']}\n"
+            f"    Sports: {student.get('sports', 'N/A')}, Art: {student.get('art', 'N/A')}, "
+            f"Games: {student.get('games', 'N/A')}, Movie: {student.get('movie', 'N/A')}"
+        )

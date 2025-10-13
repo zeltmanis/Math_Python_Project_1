@@ -23,8 +23,27 @@ class AppGUI:
             messagebox.showinfo("Review Students", "No students found.")
             return
 
-        info = "\n\n".join(self.format_student(s, idx+1) for idx, s in enumerate(self.manager.students))
-        messagebox.showinfo("Student List", info)
+        info = "\n\n".join(self.helper.format_student(s, idx + 1) for idx, s in enumerate(self.manager.students))
+
+        # Create a scrollable top-level window
+        window = tk.Toplevel(self.root)
+        window.title("Student List")
+        window.geometry("500x400")  # Width x Height
+
+        frame = tk.Frame(window)
+        frame.pack(fill=tk.BOTH, expand=True)
+
+        text_area = tk.Text(frame, wrap=tk.WORD)
+        text_area.insert(tk.END, info)
+        text_area.config(state=tk.DISABLED)
+        text_area.pack(side=tk.LEFT, fill=tk.BOTH, expand=True)
+
+        scrollbar = tk.Scrollbar(frame, command=text_area.yview)
+        scrollbar.pack(side=tk.RIGHT, fill=tk.Y)
+        text_area.config(yscrollcommand=scrollbar.set)
+
+        # Add a close button at the bottom
+        tk.Button(window, text="Close", command=window.destroy).pack(pady=5)
 
     def add_student(self):
         name = simpledialog.askstring("Add Student", "Enter name:")
