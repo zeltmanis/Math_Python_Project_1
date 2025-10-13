@@ -21,8 +21,15 @@ def main():
             manager.add_student()
 
         elif choice == '3':
-            matcher = Matchmaker(manager.students)
-            matcher.match_students()
+            matcher = MatchMaker(manager.students)
+            pairs = matcher.get_best_matches()
+
+            if not pairs:
+                print("No matching pairs found.")
+            else:
+                print("\nMatching Results:")
+                for (s1, s2), score in pairs:
+                    print(f"{s1['name']} <--> {s2['name']} (Score: {score})")
 
         elif choice == '4':
             manager.delete_student()
