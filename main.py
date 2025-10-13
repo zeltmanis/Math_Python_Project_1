@@ -1,4 +1,5 @@
 import csv
+import os
 
 FILENAME = 'students.csv'
 
@@ -15,14 +16,23 @@ def load_students():
     return students
 
 
+def save_students(students):
+    with open(FILENAME, 'w', newline='') as csvfile:
+        fieldnames = ['name', 'age', 'gender', 'country']
+        writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
+        writer.writeheader()
+        for student in students:
+            writer.writerow(student)
+
+
 def review_students(students):
     if not students:
         print("No students to show.")
         return
     print("\n--- Student List ---")
-    for student in students:
+    for i, student in enumerate(students, start=1):
         print(
-            f"Name: {student['name']}, Age: {student['age']}, Gender: {student['gender']}, Country: {student['country']}")
+            f"{i}. Name: {student['name']}, Age: {student['age']}, Gender: {student['gender']}, Country: {student['country']}")
     print("--------------------\n")
 
 
@@ -33,27 +43,45 @@ def add_student():
     gender = input("Enter gender: ")
     country = input("Enter country: ")
 
-    # Save to CSV
+    new_student = {
+        'name': name,
+        'age': age,
+        'gender': gender,
+        'country': country
+    }
+
+    # Check if file exists
+    file_exists = os.path.isfile(FILENAME)
+
     with open(FILENAME, 'a', newline='') as csvfile:
         fieldnames = ['name', 'age', 'gender', 'country']
         writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
 
-        # Check if file is empty and write headers if needed
-        try:
-            with open(FILENAME, 'r') as checkfile:
-                if not checkfile.read(1):
-                    writer.writeheader()
-        except FileNotFoundError:
+        if not file_exists or os.path.getsize(FILENAME) == 0:
             writer.writeheader()
 
-        writer.writerow({
-            'name': name,
-            'age': age,
-            'gender': gender,
-            'country': country
-        })
+        writer.writerow(new_student)
 
     print(f"Student {name} added successfully!\n")
+
+
+def delete_student():
+    students = load_students()
+    if not students:
+        print("No students to delete.")
+        return
+
+    review_students(students)
+    try:
+        choice = int(input("Enter the number of the student to delete: "))
+        if 1 <= choice <= len(students):
+            removed = students.pop(choice - 1)
+            save_students(students)
+            print(f"Student {removed['name']} has been deleted.\n")
+        else:
+            print("Invalid number.\n")
+    except ValueError:
+        print("Please enter a valid number.\n")
 
 
 def match_students(students):
@@ -85,9 +113,10 @@ def main():
         print("1. Review students")
         print("2. Add new student")
         print("3. Match students by compatibility")
-        print("4. Exit")
+        print("4. Delete a student")
+        print("5. Exit")
 
-        choice = input("Enter your choice (1-4): ").strip()
+        choice = input("Enter your choice (1-5): ").strip()
 
         if choice == '1':
             students = load_students()
@@ -98,6 +127,8 @@ def main():
             students = load_students()
             match_students(students)
         elif choice == '4':
+            delete_student()
+        elif choice == '5':
             print("Goodbye!")
             break
         else:
