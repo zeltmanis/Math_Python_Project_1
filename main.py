@@ -1,5 +1,5 @@
 from student_manager import StudentManager
-from matchmaker import Matchmaker
+from matchmaker import MatchMaker
 
 def main():
     manager = StudentManager()  # Handles loading, saving, adding, deleting
