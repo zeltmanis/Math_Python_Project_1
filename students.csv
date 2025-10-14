@@ -1,5 +1,11 @@
-name,age,gender,country
-Alice,20,Female,USA
-Bob,22,Male,Canada
-Charlie,21,Male,UK
-mike,23,male,Turkey
+id,name,age,gender,country,studies,sports,art,games
+1,Alice,20,Female,USA,Software Development,yes,yes,yes
+2,Bob,21,Male,USA,Cyber Security,yes,yes,yes
+3,Charlie,22,Male,Canada,AI,no,no,no
+4,Diana,20,Female,USA,Software Development,yes,yes,no
+5,Ethan,23,Male,UK,AI,yes,no,yes
+6,Fiona,21,Female,Canada,Digital Industrial Engineering,yes,yes,yes
+7,George,20,Male,USA,Software Development,yes,yes,yes
+8,Hannah,22,Female,USA,Cyber Security,yes,no,yes
+9,Ivan,24,Male,Germany,Cyber Security,yes,yes,yes
+10,Julia,23,Female,UK,Digital Industrial Engineering,yes,no,no
