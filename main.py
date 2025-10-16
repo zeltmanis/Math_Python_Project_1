@@ -62,8 +62,8 @@ def main():
                 print("----------------------------------\n")
 
         elif choice == '5':  # Transitive matches
-            # Require at least 2 students to perform matching
-            if len(manager.students) < 2:
+            # Require at least 3 students to perform matching
+            if len(manager.students) < 3:
                 print("Not enough students to perform matching.")
                 continue
 

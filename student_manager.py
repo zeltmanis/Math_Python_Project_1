@@ -5,17 +5,20 @@ FILENAME = 'students.csv'
 
 class StudentManager:
     def __init__(self, filename=FILENAME):
+        # Initialize with filename, load existing students, set next available ID
         self.filename = filename
         self.students = self.load_students()
         self.next_id = self.get_next_id()
 
     def get_next_id(self):
+        # Determine next ID by finding the max existing ID and adding 1
         if not self.students:
             return 1
         max_id = max(int(student['id']) for student in self.students)
         return max_id + 1
 
     def load_students(self):
+        # Load student data from CSV file into a list of dictionaries
         students = []
         try:
             with open(self.filename, newline='') as csvfile:
@@ -23,10 +26,12 @@ class StudentManager:
                 for row in reader:
                     students.append(row)
         except FileNotFoundError:
-            pass  # File will be created later
+            # If file doesn’t exist yet, start with empty list
+            pass
         return students
 
     def save_students(self):
+        # Save current student list back to CSV file
         fieldnames = ['id', 'name', 'age', 'gender', 'country', 'studies', 'sports', 'art', 'games']
         with open(self.filename, 'w', newline='') as csvfile:
             writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
@@ -35,6 +40,7 @@ class StudentManager:
                 writer.writerow(student)
 
     def review_students(self):
+        # Display list of all students or message if no students exist
         if not self.students:
             print("No students to show.")
             return
@@ -46,6 +52,7 @@ class StudentManager:
         print("--------------------\n")
 
     def add_student(self):
+        # Prompt user to input new student details and add to list, then save
         print("\n--- Add New Student ---")
         name = input("Enter name: ")
         age = input("Enter age: ")
@@ -54,6 +61,7 @@ class StudentManager:
         studies = input(
             "Enter study program (Software Development, Cyber Security, AI, Digital Industrial Engineering): ")
 
+        # Helper to ask yes/no questions for interests
         def ask_interest(prompt):
             while True:
                 print(f"{prompt}")
@@ -83,12 +91,14 @@ class StudentManager:
             'games': games
         }
 
+        # Add new student and update ID counter, then save data
         self.students.append(new_student)
         self.next_id += 1
         self.save_students()
         print(f"Student {name} added successfully!\n")
 
     def delete_student(self):
+        # Show current students and prompt user to select one to delete
         if not self.students:
             print("No students to delete.")
             return
