@@ -32,10 +32,14 @@ class MatchMaker:
         return score
 
     def get_best_matches(self, threshold=70):
-        """Returns all pairs with score >= threshold"""
+        """
+        Returns one-way matches where the score from s1 to s2 is above threshold.
+        """
         best_matches = []
         for i in range(len(self.students)):
-            for j in range(i + 1, len(self.students)):
+            for j in range(len(self.students)):
+                if i == j:
+                    continue
                 s1 = self.students[i]
                 s2 = self.students[j]
                 score = self.match_score(s1, s2)
@@ -43,9 +47,9 @@ class MatchMaker:
                     best_matches.append(((s1, s2), score))
         return best_matches
 
-    def get_mutual_matches(self, threshold=70):
-        """Returns only pairs that are mutual matches (both score each other above threshold)"""
-        mutual_matches = []
+    def get_symmetric_matches(self, threshold=70):
+        """Returns only mutual (symmetric) matches where both students score each other >= threshold."""
+        symmetric_matches = []
         for i in range(len(self.students)):
             for j in range(i + 1, len(self.students)):
                 s1 = self.students[i]
@@ -54,5 +58,31 @@ class MatchMaker:
                 score2 = self.match_score(s2, s1)
                 if score1 >= threshold and score2 >= threshold:
                     avg_score = (score1 + score2) // 2
-                    mutual_matches.append(((s1, s2), avg_score))
-        return mutual_matches
+                    symmetric_matches.append(((s1, s2), avg_score))
+        return symmetric_matches
+
+    def get_transitive_matches(self, threshold=70):
+        """
+        If (a,b) and (b,c) exist, then add (a,c) due to b.
+        """
+        relations = set()
+        for i in range(len(self.students)):
+            for j in range(len(self.students)):
+                if i == j:
+                    continue
+                s1 = self.students[i]
+                s2 = self.students[j]
+                score = self.match_score(s1, s2)
+                if score >= threshold:
+                    relations.add((s1['id'], s2['id']))
+
+        # Now check transitive closure
+        id_to_student = {s['id']: s for s in self.students}
+        transitive_matches = []
+
+        for (a, b) in relations:
+            for (b2, c) in relations:
+                if b == b2 and (a, c) not in relations and a != c:
+                    transitive_matches.append((id_to_student[a], id_to_student[c], id_to_student[b]))  # (a, c, via b)
+
+        return transitive_matches
